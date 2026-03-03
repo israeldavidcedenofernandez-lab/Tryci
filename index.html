@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tryci — Verificación de cuenta</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #09090b;
+      color: #f5f0e8;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .glow-red {
+      position: fixed;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: #e8192c;
+      opacity: 0.07;
+      top: -100px; left: -100px;
+      pointer-events: none;
+    }
+    .glow-yellow {
+      position: fixed;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: #f5d020;
+      opacity: 0.06;
+      bottom: -80px; right: -80px;
+      pointer-events: none;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 48px 36px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+
+    .app-name {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+    .app-name span { color: #f5d020; }
+
+    .tagline {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .check-circle {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(34,197,94,0.12);
+      border: 2px solid #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 36px;
+      animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 900;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    h1 span { color: #f5d020; }
+
+    .subtitle {
+      font-size: 13px;
+      color: rgba(245,240,232,0.5);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .step {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #e8192c;
+      color: white;
+      font-weight: 900;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-txt {
+      font-size: 13px;
+      color: rgba(245,240,232,0.7);
+      line-height: 1.4;
+    }
+    .step-txt strong { color: #f5f0e8; }
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 28px 0;
+    }
+
+    .footer {
+      font-size: 11px;
+      color: rgba(245,240,232,0.2);
+      letter-spacing: 1px;
+    }
+
+    /* Página de error (cuando no es verificación) */
+    .error-state .check-circle {
+      background: rgba(232,25,44,0.12);
+      border-color: #e8192c;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-red"></div>
+  <div class="glow-yellow"></div>
+
+  <div class="card" id="card">
+    <div class="logo">🛺</div>
+    <div class="app-name">Try<span>ci</span></div>
+    <div class="tagline">Conectando Cuba</div>
+
+    <div class="check-circle" id="icon">✅</div>
+
+    <h1 id="title">¡Cuenta <span>verificada!</span></h1>
+    <p class="subtitle" id="subtitle">
+      Tu correo electrónico ha sido confirmado exitosamente.<br>
+      Ya puedes usar Tryci.
+    </p>
+
+    <div class="step">
+      <div class="step-num">🦕</div>
+      <div class="step-txt"><strong>¡Listo!</strong> Abre la app e inicia sesión para empezar a usar Tryci</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="footer">Tryci v1.0 Beta</div>
+  </div>
+
+  <script>
+    // Si hay un error en la URL, mostrar mensaje de error
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('error')) {
+      document.getElementById('icon').textContent = '⚠️';
+      document.getElementById('icon').style.background = 'rgba(232,25,44,0.12)';
+      document.getElementById('icon').style.borderColor = '#e8192c';
+      document.getElementById('title').innerHTML = 'Enlace <span>expirado</span>';
+      document.getElementById('subtitle').textContent =
+        'Este enlace de verificación ya no es válido. Intenta registrarte de nuevo en la app.';
+    }
+  </script>
+</body>
+</html>
